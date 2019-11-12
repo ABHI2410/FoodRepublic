@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Food Republic</title>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<!--Import Google Icon Font-->
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!--Import materialize.css-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+     <!--Let browser know website is optimized for mobile-->
+     <link rel="stylesheet" type="text/css" href="{% static 'FoodRepublic/homepage.css' %}">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+     <!--JavaScrip-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+	<br>
+	<div class="background">
+    <a href="{% url 'FoodRepublic-home' %}">
+    <div style="border: 2px solid black">
+      <p class="styling10">FOOD REPUBLIC</p>
+      <p style="text-align: center;">Food is just a click away</p>
+    </div></a>
+    <div class="search">
+      <form method="POST" action="{% url 'result' %}">
+        {% csrf_token %}
+          <input type="text" placeholder="Search..." class = "design" style="width: 100%;" name="findnow">
+          <input type="submit" class="waves-effect waves-light btn-small" style="width: 50%;margin-left: 25%;" name="Search">
+        </form>
+    </div>
+    <div>
+      {% if user.is_authenticated %}
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'profile' %}">Profile</a>
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Logout</a>
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{%url 'cart'%}">Cart</a>
+      {% else %}
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'login' %}">Login</a>
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'register' %}">Signup</a>
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{%url 'cart'%}">Cart</a>
+      {% endif  %}
+    </div>
+  </div>
+	<br>
+	<br>
+
+<div class="container">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="item active">
+      	<div style="display: inline-block;">
+        <img src="{% static 'FoodRepublic/images/mod1.jpg'%}" alt="Los Angeles" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod4.jpg'%}" alt="Los Angeles" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod7.jpg'%}" alt="Los Angeles" style="width:33%;">
+    	</div>
+      </div>
+
+      <div class="item">
+      	<div style="display: inline-block;">
+        <img src="{% static 'FoodRepublic/images/mod2.jpg' %}" alt="Chicago" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod5.jpg'%}" alt="Los Angeles" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod8.jpg'%}" alt="Los Angeles" style="width:33%;">
+      	</div>
+      </div>
+    
+      <div class="item">
+      	<div style="display: inline-block;">
+        <img src="{% static 'FoodRepublic/images/mod3.jpg' %}" alt="New york" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod6.jpg' %}" alt="New york" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod9.jpg' %}" alt="New york" style="width:33%;">
+    	</div>
+    	</div>
+       <div class="item">
+      	<div style="display: inline-block;">
+        <img src="{% static 'FoodRepublic/images/mod10.jpg' %}" alt="New york" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod11.jpg' %}" alt="New york" style="width:33%;">
+        <img src="{% static 'FoodRepublic/images/mod12.jpg' %}" alt="New york" style="width:33%;">
+    	</div>
+      </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+<br>
+<div class="container">
+	<p class="styling">Popular Resturents</p>
+  <div class="card-style">
+	{% for data in datas %}
+	<div class="card" style="width: 25%; margin: 10px; ">
+    	<div class="card-image waves-effect waves-block waves-light">
+      		<img class="activator" src="">
+    	</div>
+    	<div class="card-content">
+      		<a href="{% url 'FoodRepublic-rest' data.0 %}"><span class="card-title activator grey-text text-darken-4">{{ data.0 }}</span></a>
+      		<p>Cusine: <b>{{ data.1 }}</b></p>
+          <p>Ratings: <b>{{data.2}}</b></p>
+          <p>Price:<b> {{data.3}} for two</b></p>
+    	</div>
+  	</div>
+	{% endfor %}
+</div>
+</div>
+
+</body>
+</html>

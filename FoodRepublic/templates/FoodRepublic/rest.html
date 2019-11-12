@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Food Republic</title>
+	 <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<!--Import Google Icon Font-->
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!--Import materialize.css-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+     <!--Let browser know website is optimized for mobile-->
+     <link rel="stylesheet" type="text/css" href="{% static 'FoodRepublic/homepage.css' %}">
+     <link rel="stylesheet" type="text/css" href="{% static 'FoodRepublic/rest.css' %}">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+     <!--JavaScrip-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="{%static 'FoodRepublic/js/jquery.cookie.js' %}"></script>
+</head>
+<body>
+	<br>
+	<div class="background">
+    <a href="{% url 'FoodRepublic-home' %}">
+		<div style="border: 2px solid black">
+			<p class="styling10">FOOD REPUBLIC</p>
+			<p style="text-align: center;">Food is just a click away</p>
+		</div></a>
+		<div class="search">
+			<form method="POST" action="{% url 'result' %}">
+        {% csrf_token %}
+          <input type="text" placeholder="Search..." class = "design" style="width: 100%;" name="findnow">
+          <input type="submit" class="waves-effect waves-light btn-small" style="width: 50%;margin-left: 25%;" name="Search">
+        </form>
+		</div>
+		<div>
+			{% if user.is_authenticated %}
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'profile' %}">Profile</a>
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Logout</a>
+      <form method="POST" action="{% url 'cart' %}">
+        {% csrf_token %} 
+        <input type="hidden" value="" name="option" id="imp">
+        <input type="hidden" value="{{data.0.0}}" name="rest_name" id="imp2">
+              <input class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" type="Submit" value="Cart">
+            </form>
+      {% else %}
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'login' %}">Login</a>
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'register' %}">Signup</a>
+      <form method="POST" action="{% url 'cart' %}">
+        {% csrf_token %} 
+        <input type="hidden" value="" name="option" id="imp">
+        <input type="hidden" value="{{data.0.0}}" name="rest_name" id="imp2">
+              <input class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" type="Submit" value="Cart">
+            </form>
+      {% endif  %}
+		</div>
+	</div>
+	<br>
+	<br>
+	<div class="row">
+		<div class="main">
+			<div style="width: 50%;">
+			<p class="styling2">{{data.0.0}}</p>
+			<p class="styling3">{{data.0.1}}</p>
+          	<p class="styling3">{{data.0.2}}</p>
+			<ul>
+  				<li><a style="font-size: 20px;">{{data.0.4}}</a><span>{{data.0.5}}</span></li>
+  				<li><a style="font-size: 20px;">30 Mins</a><span>Delivery time</span></li>
+  				<li><a style="font-size: 20px;">Rs.{{data.0.6}}</a><span>For two</span></li>
+			</ul>
+          </div>
+	</div>
+	<div class='menu-container'>
+		<div class='menu2'>
+			<p class="styling2">MENU</p>
+      	</div>
+      	{% for i in datas%}
+      	<div class='menu'>
+        	<div style="padding-left: 20px;padding-top: 10px;">
+        		<p id = '{{i.0}}'  >{{i.0}}</p>
+        		<p>{{i.1}}</p>
+        	</div>
+        	<br>
+        	<input type= "button" id = "Submit" class="waves-effect waves-light btn-small white" style="border: 2px solid #ef5350;border-radius:10px;color: #ef5350; margin-right: 10px;margin-top: 10px;" value ="Add to Cart" onclick="document.getElementById('imp').value = document.getElementById('imp').value +',{{i.0}}'; " ></input>
+      	</div>
+      	<br>
+        {%endfor%}
+    </div>
+      </div>
+    </div>
+</body>
+</html>

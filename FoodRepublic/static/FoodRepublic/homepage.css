@@ -1,0 +1,43 @@
+/* ===========================
+   ====== Search Box ====== 
+   =========================== */
+
+
+.background 
+{
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 20px;
+	padding-right: 20px;
+
+}
+
+.search
+{
+	background-color: transparent;
+	margin-left: auto;
+	margin-right: auto;
+}
+.styling
+{
+	font-size:28px;
+	font-weight:600;
+}
+
+.styling10
+{
+	font-size:28px;
+	font-weight:600;
+	padding-right: 20px;
+	padding-top: 20px;
+	padding-left: 20px;
+}
+
+.card-style
+{
+	display: inline-flex;
+	flex-wrap: wrap;
+	margin-right: auto;
+	margin-left: auto;
+
+}
