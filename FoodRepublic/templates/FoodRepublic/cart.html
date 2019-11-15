@@ -1,54 +1,8 @@
+{% extends "FoodRepublic/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Food Republic</title>
-	<!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<!--Import Google Icon Font-->
-     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!--Import materialize.css-->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-     <!--Let browser know website is optimized for mobile-->
-     <link rel="stylesheet" type="text/css" href="{% static 'FoodRepublic/homepage.css' %}">
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-     <!--JavaScrip-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    
-</head>
-<body>
-	<br>
-	<div class="background">
-    <a href="{% url 'FoodRepublic-home'%}">
-    <div style="border: 2px solid black">
-      <p class="styling10">FOOD REPUBLIC</p>
-      <p style="text-align: center;">Food is just a click away</p>
-    </div>
-  </a>
-    <div class="search">
-      <form method="POST" action="{% url 'result' %}">
-        {% csrf_token %}
-          <input type="text" placeholder="Search..." class = "design" style="width: 100%;" name="findnow">
-          <input type="submit" class="waves-effect waves-light btn-small" style="width: 50%;margin-left: 25%;" name="Search">
-        </form>
-    </div>
-    <div>
-      {% if user.is_authenticated %}
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'profile' %}">Profile</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Logout</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'cart' %}">Cart</a>
-      {% else %}
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'login' %}">Login</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'register' %}">Signup</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px"href="{% url 'logout' %}">Cart</a>
-      {% endif  %}
-    </div>
-  </div>
-	<br>
-	<br>
+{% block content %}
+  <form method="POST">
+  {% csrf_token %}
   <div class="container">
   <h1 style="color: red">{{final_data.0.0}}</h1>
   <table>
@@ -58,24 +12,40 @@
     </tr>
     {% for data in final_data%}
       <tr>
-        <td><h4>{{data.1}}</h4></td>
-        <td><h4>{{data.2}}</h4></td>
+        <td><h4 id="dishN">{{data.1}}</h4></td>
+        <td><h4 id="priceN">{{data.2}}</h4></td>
       </tr>
+       <script>
+    document.getElementById('dish').value = document.getElementById('dish').value +',{{data.1}}';
+    document.getElementById('price').value = document.getElementById('price').value +',{{data.2}}';
+  </script>
     {%endfor %}
     <tr>
     <td><h4>Total</h4></td>
-    <td><h4>{{total}}</h4></td>
+    <td><h4 id="tot">{{total}}</h4></td>
   </tr>
   <tr>
     <td><h4>Total + Tax</h4></td>
-    <td><h4>{{grand_total}}</h4></td>
+    <td><h4 id="gtot">{{grand_total}}</h4></td>
   </tr>
   </table>
-  <h3>Address : </h3><textarea></textarea>
+  <h3>Address : </h3><textarea name="address"></textarea>
+  <h3>Phone Number :</h3><input type="tel" name="phoneNumber">
+</div>
+<div class="container">
+   <input type="hidden" name="username" value="{{user.username}}" id="username">
+  <input type="hidden" name="Dish" value="" id="dish">
+  <input type="hidden" name="Price" value="" id="price">
+  <input type="hidden" name="total" value="" id="total">
+  <input type="hidden" name="grand_total" value="" id="gtotal">
+  <input type="hidden" name="restName" value="{{final_data.0.0}}">
   <h3>
     Select Mode of Payment : 
   </h3><a type="submit" name="Payment" class="waves-effect waves-light btn-small red lighten-1" href="{% url 'FoodRepublic-home'%}">Pay</a>
-</div>
-   </body>
-   
-</html>
+  </div></form>
+  <script>
+    document.getElementById('total').value = document.getElementById('tot').value;
+    document.getElementById('gtotal').value = document.getElementById('gtot').value;
+  </script>
+
+{% endblock content %}

@@ -1,57 +1,17 @@
+{% extends "FoodRepublic/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Food Republic</title>
-	<!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<!--Import Google Icon Font-->
-     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!--Import materialize.css-->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-     <!--Let browser know website is optimized for mobile-->
-     <link rel="stylesheet" type="text/css" href="{% static 'FoodRepublic/homepage.css' %}">
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-     <!--JavaScrip-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    
-</head>
-<body>
-	<br>
-	<div class="background">
-    <a href="{% url 'FoodRepublic-home' %}">
-    <div style="border: 2px solid black">
-      <p class="styling10">FOOD REPUBLIC</p>
-      <p style="text-align: center;">Food is just a click away</p>
-    </div></a>
-    <div class="search">
-      <form method="POST" action="{% url 'result' %}">
-        {% csrf_token %}
-          <input type="text" placeholder="Search..." class = "design" style="width: 100%;" name="findnow">
-          <input type="submit" class="waves-effect waves-light btn-small" style="width: 50%;margin-left: 25%;" name="Search">
-        </form><form>
-        {% csrf_token %} 
-          <input type="text" placeholder="Search..." class = "design" style="width: 100%;">
-          <a class="waves-effect waves-light btn-small" style="width: 50%;margin-left: 25%;" >Search</a>
-        </form>
-    </div>
-    <div>
-      {% if user.is_authenticated %}
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Logout</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{%url 'cart'%}">Cart</a>
-      {% else %}
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'login' %}">Login</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'register' %}">Signup</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Cart</a>
-      {% endif  %}
-    </div>
-  </div>
-	<br>
-	<br>
+{% block content %}
   <div class="container">
     <h1>{{user.username}}</h1>
-    
+    <div class="container">
+      {% for data in variable %}
+      <p>{{ data.1 }}</p>
+      <p>{{ data.2 }}</p>
+      <p>{{ data.3 }}</p>
+      <p>{{ data.4 }}</p>
+      <p>{{ data.5 }}</p>
+      <p>{{ data.6}}</p>
+    </div>
   </div>
+{% endfor %}
+{% endblock content %}

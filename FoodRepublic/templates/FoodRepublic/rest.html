@@ -37,7 +37,7 @@
 		</div>
 		<div>
 			{% if user.is_authenticated %}
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'profile' %}">Profile</a>
+      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'profile' user.username  %}">Profile</a>
       <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Logout</a>
       <form method="POST" action="{% url 'cart' %}">
         {% csrf_token %} 

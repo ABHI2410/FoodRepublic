@@ -1,54 +1,9 @@
+{% extends "FoodRepublic/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Food Republic</title>
-	<!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<!--Import Google Icon Font-->
+{% block content %}
 
-     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!--Let browser know website is optimized for mobile-->
-     <link rel="stylesheet" type="text/css" href="{% static 'FoodRepublic/homepage.css' %}">
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-     <!--JavaScrip-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
-</head>
-<body>
-	<br>
-	<div class="background">
-    <a href="{% url 'FoodRepublic-home' %}">
-    <div style="border: 2px solid black">
-      <p class="styling10">FOOD REPUBLIC</p>
-      <p style="text-align: center;">Food is just a click away</p>
-    </div></a>
-    <div class="search">
-      <form method="POST" action="{% url 'result' %}">
-        {% csrf_token %}
-          <input type="text" placeholder="Search..." class = "design" style="width: 100%;" name="findnow">
-          <input type="submit" class="waves-effect waves-light btn-small" style="width: 50%;margin-left: 25%;" name="Search">
-        </form>
-    </div>
-    <div>
-     {% if user.is_authenticated %}
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'profile' %}">Profile</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Logout</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'cart' %}">Cart</a>
-      {% else %}
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'login' %}">Login</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'register' %}">Signup</a>
-      <a class="waves-effect waves-light btn-small red lighten-1" style="margin: 10px" href="{% url 'logout' %}">Cart</a>
-      {% endif  %}
-    </div>
-  </div>
-	<br>
-	<br>
-	<br>
+
 	<div class="container">
 	<form method="POST">
 		{% csrf_token %}
@@ -64,5 +19,4 @@
 		<small class="text-muted"> Already have an account <a href="{%url 'login'%}" class="ml-2">Sign In</a></small>
 	</div>
 </div>
-</body>
-</html>
+{% endblock content %}

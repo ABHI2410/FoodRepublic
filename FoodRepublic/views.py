@@ -10,6 +10,24 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
+	if request.method == "POST":
+		username = request.POST["UN"]
+		print(username)
+		getData = request.POST["dish"]
+		getData.pop(0)
+		print(getData)
+		dish = ""
+		for data in getData:
+			dish.join(data[1])
+		getTotal = request.POST["total"]
+		getGTotal = request.POST["gtotal"]
+		getadd = request.POST["add"]
+		gettel = request.POST["phoneNumber"]
+		con = sqlite3.connect("main.db")
+		cur = con.cursor()
+		cur.execute("insert into userdata values(?,?,?,?,?,?,?);",(username,getData[0][0],dish,getTotal,getGTotal,getadd,gettel,))
+		con.commit()
+		con.close()
 	con = sqlite3.connect("main.db")
 	cur = con.cursor()
 	cur.execute('select name,cusine,ratings,price_for_two from resturants where city = "mumbai" AND ratings > "4.5" AND ratings != "--"',)
@@ -51,21 +69,29 @@ def rest(request,rest_name):
 	'length' :length
 	}
 	return render(request,'FoodRepublic/rest.html',context)
-
+def Remove(duplicate): 
+    final_list = [] 
+    for num in duplicate: 
+        if num not in final_list: 
+            final_list.append(num) 
+    return final_list 
 
 def result(request):
+	getValue =""
 	if request.method == "POST":
 		getValue = request.POST["findnow"]
 	con = sqlite3.connect("main.db")
 	cur = con.cursor()
-	cur.execute('select menu.dish,menu.price,resturants.ratings,resturants.name,resturants.address from resturants inner join menu on resturants.name=menu.name where dish like ? AND city like "mumbai"',(getValue,))
+	cur.execute('select menu.dish,menu.price,resturants.ratings,resturants.name,resturants.address from resturants join menu on resturants.name=menu.name where dish like ? AND city like "mumbai"',(getValue,))
 	data = cur.fetchall()
+	data = Remove(data)
 	context = { 'data' : data}
 	return render(request,'FoodRepublic/result.html',context)
 
 @login_required
 def cart(request):
-	getValuename,getValue= "",""
+	getValuename,getValue,total,grand_total= "","","",""
+	final_data = []
 	if request.method == 'POST':
 		getValue = request.POST["option"]
 		value = []
@@ -96,9 +122,18 @@ def cart(request):
 	
 
 @login_required
-def profile(request):
+def profile(request,username):
+	con = sqlite3.connect("main.db")
+	cur = con.cursor()
+	print(username)
+	cur.execute("select * from userdata where name = ? ",(username,))
+	variable = cur.fetchall()
+	print(variable)
+	context={
+			"variable":variable
+	}
 
-	return render(request,'FoodRepublic/profile.html')
+	return render(request,'FoodRepublic/profile.html',context)
 
 
 

@@ -8,7 +8,7 @@ urlpatterns = [
     path('login/',auth_views.LoginView.as_view(template_name='FoodRepublic/login.html'),name='login'),
     path('logout/',auth_views.LogoutView.as_view(template_name='FoodRepublic/logout.html'),name='logout'),
     path('register/',views.register,name='register'),
-    path('profile/',views.profile,name='profile'),
+    path('profile/<str:username>',views.profile,name='profile'),
     path('cart/',views.cart,name='cart'),
     path('result/',views.result,name='result')
 ]
